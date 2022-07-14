@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "healthy"
+version = "0.1.0"
+description = ""
+authors = ["A.Shpak <aleksander.shpak.als@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7.2"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+pylint = "^2.14.4"
+mypy = "^0.961"
+isort = "^5.10.1"
+black = "^22.6.0"
+pytest = "^7.1.2"
+pytest-asyncio = "^0.18.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 79
+skip-string-normalization = true
+target-version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.mypy_cache
+  | \.pytest_cache
+  | \.venv
+  | \.vscode
+  | \.idea
+)
+'''
+
+[tool.mypy]
+python_version = 3.8
+ignore_missing_imports = true
+follow_imports = "silent"
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+no_implicit_reexport = true
+exclude = [
+    '.venv/',
+    'venv/',
+]
+
+[tool.isort]
+line_length = 79
+force_grid_wrap = 0
+multi_line_output = 3
+use_parentheses = true
+include_trailing_comma = true
+sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER"]
+lines_between_types = 1
