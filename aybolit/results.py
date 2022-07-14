@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Optional
 
-from healthy.enums import States
+from aybolit.enums import States
 
 
 @dataclass(frozen=True)

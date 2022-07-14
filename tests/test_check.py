@@ -1,8 +1,8 @@
 from pytest import mark, param
 
-from healthy import Aybolit
-from healthy.exceptions import ProbeError, ProbeFail
-from healthy.probe_wrapper import States
+from aybolit import Aybolit
+from aybolit.exceptions import ProbeError, ProbeFail
+from aybolit.probe_wrapper import States
 
 _TEST_MSG = 'foo'
 

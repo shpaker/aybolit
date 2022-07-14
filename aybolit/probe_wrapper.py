@@ -1,15 +1,14 @@
 from datetime import datetime, timedelta
 from inspect import signature
-from typing import Callable, Union, Optional, Any
+from typing import Any, Callable, Optional, Union
 
-from healthy.enums import States
-from healthy.exceptions import ProbeFail, ProbeError
-from healthy.results import ProbeResult
-from healthy.utils import get_error_message_from_assert
+from aybolit.enums import States
+from aybolit.exceptions import ProbeError, ProbeFail
+from aybolit.results import ProbeResult
+from aybolit.utils import get_error_message_from_assert
 
 
 class ProbeWrapper:
-
     def __init__(
         self,
         func: Callable[[], Any],
@@ -19,7 +18,11 @@ class ProbeWrapper:
         self._title = title
         self._check = func
         self.kwargs_keys = signature(func).parameters
-        self._result_ttl = result_ttl if isinstance(result_ttl, int) else timedelta(result_ttl)
+        self._result_ttl = (
+            result_ttl
+            if not isinstance(result_ttl, int)
+            else timedelta(result_ttl)
+        )
         self._result: Optional[ProbeResult] = None
 
     def _check_ttl_valid(
@@ -33,32 +36,31 @@ class ProbeWrapper:
             return True
         return False
 
-    def __call__(self, **kwargs):
+    def __call__(self, **kwargs: Any) -> ProbeResult:
         state = States.PASS
         started_at = datetime.now()
-        if self._check_ttl_valid(started_at):
+        if self._result and self._check_ttl_valid(started_at):
             return self._result
 
         try:
             message = self._check(**kwargs)
         except AssertionError as exc:
-            state = state.FAIL
+            state = States.FAIL
             message = get_error_message_from_assert(exc)
         except ProbeFail as exc:
-            state = state.FAIL
+            state = States.FAIL
             message = str(exc)
         except ProbeError as exc:
-            state = state.ERROR
+            state = States.ERROR
             message = str(exc)
         except Exception as exc:
-            state = state.ERROR
+            state = States.ERROR
             message = f'{exc.__class__.__name__}: {exc}'
 
         self._finished_at = datetime.now()
-        self._result = ProbeResult(
+        return ProbeResult(
             state=state,
             message=message if message else None,
             finished_at=self._finished_at,
-            timespan=self._finished_at-started_at,
+            timespan=self._finished_at - started_at,
         )
-        return self._result

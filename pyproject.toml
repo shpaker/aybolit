@@ -1,8 +1,8 @@
 [tool.poetry]
-name = "healthy"
+name = "aybolit"
 version = "0.1.0"
 description = ""
-authors = ["A.Shpak <aleksander.shpak.als@gmail.com>"]
+authors = ["A.Shpak <shpaker@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.7.2"

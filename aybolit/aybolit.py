@@ -1,12 +1,11 @@
 from datetime import timedelta
-from typing import List, Callable, Union, Optional, Any
+from typing import Any, Callable, List, Optional, Union
 
-from healthy.probe_wrapper import ProbeWrapper
-from healthy.results import HealthyResult
+from aybolit.probe_wrapper import ProbeWrapper
+from aybolit.results import HealthyResult
 
 
 class Aybolit:
-
     def __init__(
         self,
     ) -> None:
@@ -18,8 +17,7 @@ class Aybolit:
         title: Optional[str] = None,
         result_ttl: Union[int, timedelta] = 0,
     ) -> Callable:
-
-        def wrapper(func):
+        def wrapper(func: Callable) -> None:
             self.add_check(
                 func=func,
                 title=title,
@@ -45,11 +43,15 @@ class Aybolit:
 
     def run(
         self,
-        **kwargs,
+        **kwargs: Any,
     ) -> HealthyResult:
         results = []
         for check in self.checks:
-            kwargs = {key: value for key, value in kwargs.items() if key in check.kwargs_keys}
+            kwargs = {
+                key: value
+                for key, value in kwargs.items()
+                if key in check.kwargs_keys
+            }
             result = check(**kwargs)
             results.append(result)
         return HealthyResult(results=results)
