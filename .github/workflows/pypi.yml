@@ -6,27 +6,23 @@ on:
     tags:
       - '*'
 
+env:
+  POETRY_VERSION: "1.1.14"
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Set up Python 3.9
-        uses: actions/setup-python@v2
+      - uses: actions/setup-python@v2
         with:
           python-version: "3.9"
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: dependencies
-        run: |
-          python -m pip install poetry==1.1.14
-      -
-        name: build
-        run: poetry build
-      -
-        name: publish
-        run: |
+      - uses: actions/checkout@v2
+      - run: |
+          python -m pip install poetry==${POETRY_VERSION}
+          poetry build
+      - run: |
+          sed -i 's/0.1.0/'"${GITHUB_REF_NAME}"'/' pyproject.toml
+          head -n 3 pyproject.toml
+      - run: |
           poetry config http-basic.pypi ${{ secrets.PYPI_LOGIN }} ${{ secrets.PYPI_PASS }}
           poetry publish
