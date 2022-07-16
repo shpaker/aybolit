@@ -1,7 +1,8 @@
-from enum import Enum
+from enum import Enum, auto, unique
 
 
-class States(str, Enum):
-    PASS = 'pass'
-    FAIL = 'fail'
-    ERROR = 'error'
+@unique
+class CheckDefState(str, Enum):
+    PASS = auto()
+    FAIL = auto()
+    ERROR = auto()

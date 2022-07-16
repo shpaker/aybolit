@@ -2,28 +2,29 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List, Optional
 
-from aybolit.enums import States
+from aybolit.enums import CheckDefState
 
 
 @dataclass(frozen=True)
-class ProbeResult:
-    state: States
+class CheckDefWrapperResult:
+    title: str
+    state: CheckDefState
     message: Optional[str]
     finished_at: datetime
     timespan: timedelta
 
 
 @dataclass(frozen=True)
-class HealthyResult:
-    results: List[ProbeResult]
+class CheckResult:
+    results: List[CheckDefWrapperResult]
 
     @property
-    def state(self) -> States:
-        state = States.PASS
-        for probe in self.results:
-            if probe.state is States.FAIL:
-                state = States.FAIL
+    def state(self) -> CheckDefState:
+        state = CheckDefState.PASS
+        for result in self.results:
+            if result.state is CheckDefState.FAIL:
+                state = CheckDefState.FAIL
                 continue
-            if probe.state is States.ERROR:
-                return States.ERROR
+            if result.state is CheckDefState.ERROR:
+                return CheckDefState.ERROR
         return state

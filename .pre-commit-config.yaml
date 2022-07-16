@@ -20,11 +20,11 @@ repos:
         language: system
         files: ^(aybolit|tests)/.+\.py$
 
-      - id: mypy
-        name: mypy
-        entry: mypy
-        language: system
-        files: ^(aybolit)/.+\.py$
+#      - id: mypy
+#        name: mypy
+#        entry: mypy
+#        language: system
+#        files: ^(aybolit)/.+\.py$
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: 'v4.3.0'

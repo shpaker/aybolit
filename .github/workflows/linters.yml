@@ -19,7 +19,7 @@ jobs:
           - isort
           - black
           - flake8
-          - mypy
+#          - mypy
     steps:
       - uses: actions/setup-python@v2
         with:
