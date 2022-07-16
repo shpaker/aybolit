@@ -78,8 +78,8 @@ class CheckDefWrapper(CheckDefBaseWrapper):
             title=self._title,
             state=state,
             message=message,
+            started_at=started_at,
             finished_at=self._finished_at,
-            timespan=self._finished_at - started_at,
         )
         return self._result
 
@@ -104,7 +104,7 @@ class AsyncCheckDefWrapper(CheckDefBaseWrapper):
             title=self._title,
             state=state,
             message=message,
+            started_at=started_at,
             finished_at=self._finished_at,
-            timespan=self._finished_at - started_at,
         )
         return self._result

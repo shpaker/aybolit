@@ -1,21 +1,26 @@
+from abc import ABC
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import List, Optional
 
 from aybolit.enums import CheckDefState
 
 
 @dataclass(frozen=True)
-class CheckDefWrapperResult:
-    title: str
-    state: CheckDefState
-    message: Optional[str]
+class _ResultBase(ABC):
+    started_at: datetime
     finished_at: datetime
-    timespan: timedelta
 
 
 @dataclass(frozen=True)
-class CheckResult:
+class CheckDefWrapperResult(_ResultBase):
+    title: str
+    state: CheckDefState
+    message: Optional[str]
+
+
+@dataclass(frozen=True)
+class CheckResult(_ResultBase):
     results: List[CheckDefWrapperResult]
 
     @property

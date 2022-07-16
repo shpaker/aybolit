@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 from asyncio import iscoroutinefunction
-from datetime import timedelta
+from datetime import datetime, timedelta
 from typing import Any, Callable, List, Optional, Union
 
 from aybolit.results import CheckResult
 from aybolit.wrappers import AsyncCheckDefWrapper, CheckDefWrapper
 
 
-class AybolitBase(ABC):
+class _AybolitBase(ABC):
     def __init__(
         self,
     ) -> None:
@@ -60,12 +60,13 @@ class AybolitBase(ABC):
         raise NotImplementedError
 
 
-class Aybolit(AybolitBase):
+class Aybolit(_AybolitBase):
     def check(
         self,
         **kwargs: Any,
     ) -> CheckResult:
         results = []
+        started_at = datetime.now()
         for check in self._check_defs:
             kwargs = {
                 key: value
@@ -74,15 +75,20 @@ class Aybolit(AybolitBase):
             }
             result = check(**kwargs)
             results.append(result)
-        return CheckResult(results=results)
+        return CheckResult(
+            results=results,
+            started_at=started_at,
+            finished_at=datetime.now(),
+        )
 
 
-class AsyncAybolit(AybolitBase):
+class AsyncAybolit(_AybolitBase):
     async def check(
         self,
         **kwargs: Any,
     ) -> CheckResult:
         results = []
+        started_at = datetime.now()
         for check in self._check_defs:
             kwargs = {
                 key: value
@@ -93,4 +99,8 @@ class AsyncAybolit(AybolitBase):
                 await check(**kwargs) if check.is_async else check(**kwargs)
             )
             results.append(result)
-        return CheckResult(results=results)
+        return CheckResult(
+            results=results,
+            started_at=started_at,
+            finished_at=datetime.now(),
+        )
