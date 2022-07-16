@@ -21,12 +21,12 @@ class CheckDefWrapperResult(_ResultBase):
 
 @dataclass(frozen=True)
 class CheckResult(_ResultBase):
-    results: List[CheckDefWrapperResult]
+    checks: List[CheckDefWrapperResult]
 
     @property
     def state(self) -> CheckDefState:
         state = CheckDefState.PASS
-        for result in self.results:
+        for result in self.checks:
             if result.state is CheckDefState.FAIL:
                 state = CheckDefState.FAIL
                 continue

@@ -13,5 +13,5 @@ def test_ok():
     result = aybolit.check()
     common_state = result.state
     assert common_state == CheckDefState.PASS
-    assert len(result.results) == 1, result.results
-    assert result.results[0].title == check_title, result.results
+    assert len(result.checks) == 1, result.checks
+    assert result.checks[0].title == check_title, result.checks

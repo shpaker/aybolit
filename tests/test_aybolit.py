@@ -72,7 +72,7 @@ def test_sync(
     result = aybolit.check(foo=_TEST_MSG)
     common_state = result.state
     assert common_state == state
-    probe = result.results[0]
+    probe = result.checks[0]
     assert probe.message == message
 
 
@@ -86,5 +86,5 @@ async def test_async():
     result = await aybolit.check()
     common_state = result.state
     assert common_state == CheckDefState.PASS
-    probe = result.results[0]
+    probe = result.checks[0]
     assert probe.message == _TEST_MSG

@@ -65,18 +65,18 @@ class Aybolit(_AybolitBase):
         self,
         **kwargs: Any,
     ) -> CheckResult:
-        results = []
+        checks = []
         started_at = datetime.now()
-        for check in self._check_defs:
+        for check_def in self._check_defs:
             kwargs = {
                 key: value
                 for key, value in kwargs.items()
-                if key in check.kwargs_keys
+                if key in check_def.kwargs_keys
             }
-            result = check(**kwargs)
-            results.append(result)
+            result = check_def(**kwargs)
+            checks.append(result)
         return CheckResult(
-            results=results,
+            checks=checks,
             started_at=started_at,
             finished_at=datetime.now(),
         )
@@ -87,20 +87,22 @@ class AsyncAybolit(_AybolitBase):
         self,
         **kwargs: Any,
     ) -> CheckResult:
-        results = []
+        checks = []
         started_at = datetime.now()
-        for check in self._check_defs:
+        for check_def in self._check_defs:
             kwargs = {
                 key: value
                 for key, value in kwargs.items()
-                if key in check.kwargs_keys
+                if key in check_def.kwargs_keys
             }
             result = (
-                await check(**kwargs) if check.is_async else check(**kwargs)
+                await check_def(**kwargs)
+                if check_def.is_async
+                else check_def(**kwargs)
             )
-            results.append(result)
+            checks.append(result)
         return CheckResult(
-            results=results,
+            checks=checks,
             started_at=started_at,
             finished_at=datetime.now(),
         )

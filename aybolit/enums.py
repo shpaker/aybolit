@@ -1,8 +1,8 @@
-from enum import Enum, auto, unique
+from enum import Enum, unique
 
 
 @unique
 class CheckDefState(str, Enum):
-    PASS = auto()
-    FAIL = auto()
-    ERROR = auto()
+    PASS = 'pass'
+    FAIL = 'fail'
+    ERROR = 'error'
