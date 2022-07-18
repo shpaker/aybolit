@@ -1,10 +1,10 @@
-class HealthyBaseError(Exception):
+class AybolitBaseError(Exception):
     ...
 
 
-class ProbeFail(HealthyBaseError):
+class ProbeFail(AybolitBaseError):
     ...
 
 
-class ProbeError(HealthyBaseError):
+class ProbeError(AybolitBaseError):
     ...

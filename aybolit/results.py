@@ -18,6 +18,10 @@ class CheckDefWrapperResult(_ResultBase):
     state: CheckDefState
     message: Optional[str]
 
+    @property
+    def ok(self) -> bool:
+        return self.state is CheckDefState.PASS
+
 
 @dataclass(frozen=True)
 class CheckResult(_ResultBase):
@@ -33,3 +37,7 @@ class CheckResult(_ResultBase):
             if result.state is CheckDefState.ERROR:
                 return CheckDefState.ERROR
         return state
+
+    @property
+    def ok(self) -> bool:
+        return self.state is CheckDefState.PASS

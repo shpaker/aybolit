@@ -1,8 +1,11 @@
+from pytest import mark
+
 from aybolit import Aybolit
 from aybolit.wrappers import CheckDefState
 
 
-def test_ok():
+@mark.asyncio
+async def test_ok():
     aybolit = Aybolit()
     check_title = 'test-test-test'
 
@@ -10,7 +13,7 @@ def test_ok():
     def _async_def():
         pass
 
-    result = aybolit.check()
+    result = await aybolit.check()
     common_state = result.state
     assert common_state == CheckDefState.PASS
     assert len(result.checks) == 1, result.checks

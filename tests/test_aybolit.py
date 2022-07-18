@@ -1,6 +1,6 @@
 from pytest import mark, param
 
-from aybolit import AsyncAybolit, Aybolit
+from aybolit import Aybolit
 from aybolit.exceptions import ProbeError, ProbeFail
 from aybolit.wrappers import CheckDefState
 
@@ -62,29 +62,16 @@ def error_check_with_msg():
         param(error_check_with_msg, CheckDefState.ERROR, _TEST_MSG),
     ),
 )
-def test_sync(
+@mark.asyncio
+async def test_sync(
     state,
     probe_func,
     message,
 ) -> None:
     aybolit = Aybolit()
     aybolit.add(probe_func)
-    result = aybolit.check(foo=_TEST_MSG)
+    result = await aybolit.check(foo=_TEST_MSG)
     common_state = result.state
     assert common_state == state
     probe = result.checks[0]
     assert probe.message == message
-
-
-@mark.asyncio
-async def test_async():
-    async def _async_def():
-        return _TEST_MSG
-
-    aybolit = AsyncAybolit()
-    aybolit.add(_async_def)
-    result = await aybolit.check()
-    common_state = result.state
-    assert common_state == CheckDefState.PASS
-    probe = result.checks[0]
-    assert probe.message == _TEST_MSG

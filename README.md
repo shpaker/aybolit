@@ -10,6 +10,7 @@ pip install aybolit
 ## usage
 
 ```python
+from asyncio import run
 from dataclasses import asdict
 from json import dumps
 
@@ -37,12 +38,16 @@ def redis_is_available():
   return 'available'
 
 
-if __name__ == '__main__':
+async def main():
   aybolit.add(redis_is_available, 'redis')
-  results = aybolit.check()
+  results = await aybolit.check()
   print(
     dumps(asdict(results), indent=2, default=str),
   )
+
+
+if __name__ == '__main__':
+  run(main())
 ```
 
 output:

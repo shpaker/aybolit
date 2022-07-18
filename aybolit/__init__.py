@@ -1,6 +1,3 @@
-from aybolit.aybolit import AsyncAybolit, Aybolit
+from aybolit.aybolit import Aybolit
 
-__all__ = (
-    'Aybolit',
-    'AsyncAybolit',
-)
+__all__ = ('Aybolit',)
